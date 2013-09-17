@@ -113,10 +113,10 @@ def solar_distance ( doy ):
         Day of year
     """
     #assert ( doy > 0 ) & ( doy < 367 )
-    om = (0.9856*( doy -4))*np.pi/180.
-    dsol = 1. / ( (1.-.01673*np.cos(om))**2)
+    om = np.deg2rad(0.985626*doy)
+    dsol=(1.-0.01673**2)/(1+0.01673*np.cos(om))
     return dsol
-
+    
 def extraterrestrial_radiation( wvl, doy ):
     """Need a function to calculate **spectral** extraterrestrial radiation as a function of Earth-Sun
     distance and wavelength. I think a formula is available in Liang's book, but haven't got it to
