@@ -161,9 +161,10 @@ def ozone ( lambdai, theta_0, theta, o3_column ):
         o3_coeff = np.loadtxt ( "o3_coeff.txt" )
     o3_column = o3_column/1000. # Convert to atm cm
     # Calculate mu terms...
-    mu = 1./np.cos ( np.deg2rad(theta) )
-    mu_0 = 1./np.cos ( np.deg2rad( theta_0 ) )
-    iloc = int( np.ceil ( lambdai - o3_coeff[:,0].min()) )
+    mu = np.cos ( np.deg2rad(theta) )
+    mu_0 =np.cos ( np.deg2rad( theta_0 ) )
+    iloc=np.argmin(np.abs(o3_coeff[:,0]-lambdai))+1
+    
     if lambdai >= 974:
         tau_O3 = 0.0
     else:
