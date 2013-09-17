@@ -132,9 +132,9 @@ def extraterrestrial_radiation( wvl, doy ):
         solirr = data
     else:
         solirr = np.loadtxt ( "solirr.dat" )
-    sun_earth_distance = solar_distance ( doy )
+    
     i = np.argmin( np.abs(solirr[:,0] - wvl))
-    ETo = solirr[i,1] * sun_earth_distance
+    ETo = solirr[i,1] 
     return ETo
 
 def ozone ( lambdai, theta_0, theta, o3_column ):
