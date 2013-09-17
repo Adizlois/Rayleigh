@@ -354,7 +354,7 @@ def do_wang_atcorr ( fname, height, o3_conc, verbose=False ):
     tau_diff = []
     # Rayleigh scattering and O3 pissing 
     for lambdai in lambdas:
-        lray, tau_diffu = rayleigh_scattering ( theta_i, 0.0, phi_i, 0.0, lambdai, o3_conc, height, doy )
+        lray, tau_diffu = rayleigh_scattering ( 0.0,theta_i,0.0, phi_i,lambdai, o3_conc, height, doy )
         L_rayleigh.append ( lray )
         tau_diff.append ( tau_diffu )
     L_rayleigh = np.array ( L_rayleigh )
