@@ -237,7 +237,8 @@ def rayleigh_scattering ( theta, theta_0, phi, phi_0, lambdai, o3_conc, h0, doy 
     rayleigh_radiance = (1./(4*np.pi*mu))
     rayleigh_radiance = rayleigh_radiance*(F0*T_O3*tau_rayleigh)
     rayleigh_radiance = rayleigh_radiance*(P_gamma_down + (rho_mu + rho_mu0)*P_gamma_up)
-    diffuse = np.exp ( - ( (rayleigh_radiance/2.) + T_O3 )*mu )
+    diffuse = np.exp ( - ( (tau_rayleigh/2.) + T_O3 )/mu )
+    
             
     return rayleigh_radiance, diffuse
 
