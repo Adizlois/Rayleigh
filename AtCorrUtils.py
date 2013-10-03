@@ -349,11 +349,11 @@ def aerosol_correction ( tau_diff, fname, l_rayleigh, doy, lambdas, theta_i, ver
             green_rad_toa = g.ReadAsArray()
         total_rad[i, :, : ] = g.ReadAsArray()
             
-    
-    green_rad = green_refl*np.cos(np.deg2rad(theta_i))*et_rad/(np.pi*distance**2)
+    fresnel0,fresnel=fresnel_reflectance(0.0,theta_i)
+    green_rad = green_refl*tau_diff[1]*et_rad*(1-fresnel)*np.cos(np.deg2rad(theta_i))/(distance**2)
     aerosol_corr = green_rad_toa*0.
     aerosol_corr[clear_water==1] = green_rad_toa[clear_water==1] - \
-        tau_diff[1]*green_rad - l_rayleigh[1]
+        green_rad - l_rayleigh[1]
     if verbose:
         print "Starting interpolation..."
     aerosol_corr = nearest_neighbour_interpolation ( clear_water, aerosol_corr )
