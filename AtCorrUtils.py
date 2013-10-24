@@ -132,9 +132,10 @@ def extraterrestrial_radiation( wvl, doy ):
         solirr = data
     else:
         solirr = np.loadtxt ( "solirr.dat" )
+    sun_earth_distance = solar_distance ( doy )
     
     i = np.argmin( np.abs(solirr[:,0] - wvl))
-    ETo = solirr[i,1] 
+    ETo = solirr[i,1]/(sun_earth_distance**2)
     return ETo
 
 def ozone ( lambdai, theta_0, theta, o3_column ):
@@ -331,7 +332,7 @@ def aerosol_correction ( tau_diff, fname, l_rayleigh, doy, lambdas, theta_i, ver
         water_leaving_rad <= 0.9), 2, clear_water )
     clear_water =  np.where ( np.abs( water_leaving_rad )> 0.9, 0, clear_water )
     
-    et_rad = extraterrestrial_radiation( doy, lambdas[1] )
+    et_rad = extraterrestrial_radiation( lambdas[1],doy )
     distance = solar_distance ( doy )
     green_refl = 0.054 
 
@@ -350,7 +351,7 @@ def aerosol_correction ( tau_diff, fname, l_rayleigh, doy, lambdas, theta_i, ver
         total_rad[i, :, : ] = g.ReadAsArray()
             
     fresnel0,fresnel=fresnel_reflectance(0.0,theta_i)
-    green_rad = green_refl*tau_diff[1]*et_rad*(1-fresnel)*np.cos(np.deg2rad(theta_i))/(distance**2)
+    green_rad = green_refl*et_rad*np.cos(np.deg2rad(theta_i))/(3.14159)
     aerosol_corr = green_rad_toa*0.
     aerosol_corr[clear_water==1] = green_rad_toa[clear_water==1] - \
         green_rad - l_rayleigh[1]
@@ -360,12 +361,16 @@ def aerosol_correction ( tau_diff, fname, l_rayleigh, doy, lambdas, theta_i, ver
     if verbose:
         print "Interpolation done..."
     s_factor = np.zeros(3)
-    s_factor = np.array ( [ extraterrestrial_radiation( doy, lambdas[i] )/et_rad \
+    s_factor = np.array ( [ extraterrestrial_radiation( lambdas[i],doy )/et_rad \
         for i in xrange(3) ] )
     water_leaving_rad_vis = np.zeros( ( 3, green_rad_toa.shape[0], green_rad_toa.shape[1] ) )
     for i in xrange(3):
         water_leaving_rad_vis[ i, :, : ] = ( total_rad[i,:,:] - l_rayleigh[i] - \
             aerosol_corr*s_factor[i] )/tau_diff[i]
+        #Conversion radiance-reflectance
+        water_leaving_rad_vis[ i, :, : ]=water_leaving_rad_vis[ i, :, : ]*3.14159/(extraterrestrial_radiation(lambdas[i],doy)*np.cos(np.deg2rad(theta_i)))
+        #Set value for non-water pixels (zero)
+        water_leaving_rad_vis[ i, :, : ]=  np.where ( ( water_leaving_rad )> 0.9, 0, water_leaving_rad_vis[ i, :, : ])
     
     
     return water_leaving_rad_vis    
