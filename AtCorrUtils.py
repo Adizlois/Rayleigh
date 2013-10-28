@@ -322,7 +322,7 @@ def aerosol_correction ( tau_diff, fname, l_rayleigh, doy, lambdas, theta_i, ver
     lambdas: array
         Centre frequencies of all TM bands
     theta_i: float
-        The solar zenith angle (in degrees?)
+        The solar zenith angle 
         
     Returns
     --------
