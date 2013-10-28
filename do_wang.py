@@ -72,9 +72,10 @@ EXIT STATUS
 
     -1 if numpy and/or GDAL aren't present
 
-AUTHOR
+AUTHORS
 
     J Gomez-Dans <j.gomez-dans@ucl.ac.uk>
+    Alfonso Diz-Lois Palomares
 
 NOTE
     
