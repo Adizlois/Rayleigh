@@ -3,6 +3,11 @@
 This file contains a number of support functions to perform
 Atmospheric correction over inland waters. They will be used
 by a number of different atmospheric correction algorithms.
+
+AUTHORS:
+
+José Gómez-Dans
+Alfonso Diz-Lois Palomares
 """
 import sys
 import os
@@ -28,7 +33,7 @@ def get_o3conc ( doy, year, fname="o3_conc.txt" ):
         The filename with the timeseries data.
     """
     if  ( year < 1980 ) or ( year > 2012 ):
-        print "Only years between 1980 are considered with current data file"
+        print "Only years from 1980 are considered with current data file"
         raise ValueError
     d = np.loadtxt( fname )
     missing_dates = d[ d[:,1] == 0, 0 ] # Missing dates in format YYYYDDD
@@ -112,11 +117,13 @@ def solar_distance ( doy ):
     doy: int 
         Day of year
     """
-    #assert ( doy > 0 ) & ( doy < 367 )
+    
+    import numpy as np
     om = np.deg2rad(0.985626*doy)
+    
     dsol=(1.-0.01673**2)/(1+0.01673*np.cos(om))
     return dsol
-    
+
 def extraterrestrial_radiation( wvl, doy ):
     """Need a function to calculate **spectral** extraterrestrial radiation as a function of Earth-Sun
     distance and wavelength. I think a formula is available in Liang's book, but haven't got it to
@@ -161,11 +168,10 @@ def ozone ( lambdai, theta_0, theta, o3_column ):
     else:
         o3_coeff = np.loadtxt ( "o3_coeff.txt" )
     o3_column = o3_column/1000. # Convert to atm cm
-    # Calculate mu terms...
-    mu = np.cos ( np.deg2rad(theta) )
-    mu_0 =np.cos ( np.deg2rad( theta_0 ) )
+    # Calculate mu terms...CAMBIADO
+    mu = 1.*np.cos ( np.deg2rad(theta) )
+    mu_0 =1.*np.cos ( np.deg2rad( theta_0 ) )
     iloc=np.argmin(np.abs(o3_coeff[:,0]-lambdai))+1
-    
     if lambdai >= 974:
         tau_O3 = 0.0
     else:
@@ -239,7 +245,6 @@ def rayleigh_scattering ( theta, theta_0, phi, phi_0, lambdai, o3_conc, h0, doy 
     rayleigh_radiance = rayleigh_radiance*(F0*T_O3*tau_rayleigh)
     rayleigh_radiance = rayleigh_radiance*(P_gamma_down + (rho_mu + rho_mu0)*P_gamma_up)
     diffuse = np.exp ( - ( (tau_rayleigh/2.) + T_O3 )/mu )
-    
             
     return rayleigh_radiance, diffuse
 
@@ -258,7 +263,7 @@ def water_leaving_rad_b7 ( diff_coeff, ifname, rayleigh_radiance ):
     water_leaving_rad = ( total_rad - rayleigh_radiance )/diff_coeff
     return water_leaving_rad
 
-def nearest_neighbour_interpolation ( clear_water, green_aot ):
+def nearest_neighbour_interpolation ( Clear_water, green_aot ):
     """Nearest neighbour interpolation of green AOT for turbid water pixels.
     
     `clear_water` is a 2D array with values 2 for turbid water pixels and
@@ -278,14 +283,15 @@ def nearest_neighbour_interpolation ( clear_water, green_aot ):
     green_aot_intp: array
         A 2D array with the aerosol scattering contribution for both turbid and non-turbid pixels
     """
-
-    yc, xc = np.nonzero ( clear_water == 2 )
-    y, x = np.nonzero ( clear_water == 1 )
+    import numpy as np
+    yc,xc= np.nonzero ( Clear_water == 2 )
+    y,x=np.nonzero(Clear_water==1)
+    v= [np.hypot ( x - xc[i], y - yc[i]).argmin() for i in xrange (len(xc))]
+    v = np.array (v)
+    green_aot_intp=green_aot*1.
+    green_aot_intp [yc, xc]= green_aot [y[v], x[v]]
     
-    v = [ np.hypot ( x - xc[i], y - yc[i]).argmin() for i in xrange(len(xc))]
-    v = np.array ( v )
-    green_aot_intp = green_aot*1.
-    green_aot_intp [yc, xc] = green_aot [y[v], x[v]]
+        
     return green_aot_intp
 
 def aerosol_correction ( tau_diff, fname, l_rayleigh, doy, lambdas, theta_i, verbose ):
@@ -330,47 +336,52 @@ def aerosol_correction ( tau_diff, fname, l_rayleigh, doy, lambdas, theta_i, ver
         water_leaving_rad <= 0.2), 1, 0 ) 
     clear_water =  np.where ( np.logical_and ( water_leaving_rad > 0.2, \
         water_leaving_rad <= 0.9), 2, clear_water )
-    clear_water =  np.where ( np.abs( water_leaving_rad )> 0.9, 0, clear_water )
+    clear_water =  np.where ( ( water_leaving_rad )> 0.9, 0, clear_water )
     
-    et_rad = extraterrestrial_radiation( lambdas[1],doy )
+   
     distance = solar_distance ( doy )
-    green_refl = 0.054 
+    green_refl = 0.054
 
+    
+      
+    et_rad = extraterrestrial_radiation(lambdas[1],doy )
     for i in xrange ( 3 ):
-        
-        afname = fname.replace ( "MTL.txt", "B%d_TOARAD.tif" % ( i+1 ) )
-        if not os.path.exists ( afname ):
-            afname = fname.replace ( "MTL.txt", "ROI_B%d_TOARAD.tif" % ( i+1 ) )
-        g = gdal.Open ( afname )
-        if g is None:
-            raise IOError, "Can't find file %s" % fname
-        if i == 0:
-            total_rad = np.zeros ( ( 3, g.RasterYSize, g.RasterXSize ) )
-        if i == 1:
-            green_rad_toa = g.ReadAsArray()
-        total_rad[i, :, : ] = g.ReadAsArray()
-            
-    fresnel0,fresnel=fresnel_reflectance(0.0,theta_i)
+      afname = fname.replace ( "MTL.txt", "B%d_TOARAD.tif" % ( i+1 ) )
+      if not os.path.exists ( afname ):
+	afname = fname.replace ( "MTL.txt", "ROI_B%d_TOARAD.tif" % ( i+1 ) )
+      g = gdal.Open ( afname )
+      if g is None:
+	raise IOError, "Can't find file %s" % fname
+      if i == 0:
+	total_rad = np.zeros ( ( 3, g.RasterYSize, g.RasterXSize ) )
+      if i == 1:
+	green_rad_toa = g.ReadAsArray()
+      total_rad[i, :, : ] = g.ReadAsArray()
+    print "Diff Coef = %f"%(tau_diff[1])
+    print "Lray= %f" %(l_rayleigh[1])
+    print "theta_i= %f"%(np.deg2rad(theta_i))
+    print "np.cos theta_i = %f" %(np.cos(np.deg2rad(theta_i)))
     green_rad = green_refl*et_rad*np.cos(np.deg2rad(theta_i))/(3.14159)
     aerosol_corr = green_rad_toa*0.
     aerosol_corr[clear_water==1] = green_rad_toa[clear_water==1] - \
-        green_rad - l_rayleigh[1]
+      green_rad - l_rayleigh[1]
     if verbose:
-        print "Starting interpolation..."
+      print "Starting interpolation..."
+        
     aerosol_corr = nearest_neighbour_interpolation ( clear_water, aerosol_corr )
     if verbose:
-        print "Interpolation done..."
+      print "Interpolation done..."
     s_factor = np.zeros(3)
-    s_factor = np.array ( [ extraterrestrial_radiation( lambdas[i],doy )/et_rad \
-        for i in xrange(3) ] )
+    s_factor = np.array ( [ extraterrestrial_radiation(lambdas[i],doy )/et_rad \
+      for i in xrange(3) ] )
     water_leaving_rad_vis = np.zeros( ( 3, green_rad_toa.shape[0], green_rad_toa.shape[1] ) )
+    
+
     for i in xrange(3):
-        water_leaving_rad_vis[ i, :, : ] = ( total_rad[i,:,:] - l_rayleigh[i] - \
-            aerosol_corr*s_factor[i] )/tau_diff[i]
-        #Conversion radiance-reflectance
-        water_leaving_rad_vis[ i, :, : ]=water_leaving_rad_vis[ i, :, : ]*3.14159/(extraterrestrial_radiation(lambdas[i],doy)*np.cos(np.deg2rad(theta_i)))
-        #Set value for non-water pixels (zero)
-        water_leaving_rad_vis[ i, :, : ]=  np.where ( ( water_leaving_rad )> 0.9, 0, water_leaving_rad_vis[ i, :, : ])
+      water_leaving_rad_vis[ i, :, : ] = (( total_rad[i,:,:] - l_rayleigh[i] - \
+	aerosol_corr*s_factor[i] )/tau_diff[i])
+      water_leaving_rad_vis[ i, :, : ]=water_leaving_rad_vis[ i, :, : ]*3.14159/(extraterrestrial_radiation(lambdas[i],doy)*np.cos(np.deg2rad(theta_i)))
+      water_leaving_rad_vis[ i, :, : ]=  np.where ( ( water_leaving_rad )> 0.9, 0, water_leaving_rad_vis[ i, :, : ])
     
-    
+      
     return water_leaving_rad_vis    
