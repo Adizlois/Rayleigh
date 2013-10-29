@@ -16,7 +16,7 @@ DESCRIPTION
   is e.g. `LE72040312010347EDC00_WANG_VIS_WLRAD.tif`). 
 
 EXAMPLES
-            $ ./do_atcorr.py -H 0.5 -i data/LE72040312010347EDC00_MTL.txt \
+            $ ./do_wang.py -H 0.5 -i data/LE72040312010347EDC00_MTL.txt \
                 --roi 578745.000,4650765.000,608535.000,4618935.000 -v
                 
             Sat Jun 15 15:19:56 2013
@@ -75,7 +75,7 @@ EXIT STATUS
 AUTHORS
 
     J Gomez-Dans <j.gomez-dans@ucl.ac.uk>
-    Alfonso Diz-Lois Palomares
+    Alfonso Diz-Lois Palomares <dizlois@gmail.com>
 
 NOTE
     
