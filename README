@@ -1,1 +1,3 @@
 An atmospheric correction method for Landsat TM/ETM+ data over inland waters.
+
+do_wang.py is the main programme. Run do_wang.py --help for configuration
