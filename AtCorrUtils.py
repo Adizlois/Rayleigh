@@ -171,7 +171,7 @@ def ozone ( lambdai, theta_0, theta, o3_column ):
     # Calculate mu terms...CAMBIADO
     mu = 1.*np.cos ( np.deg2rad(theta) )
     mu_0 =1.*np.cos ( np.deg2rad( theta_0 ) )
-    iloc=np.argmin(np.abs(o3_coeff[:,0]-lambdai))+1
+    iloc=np.argmin(np.abs(o3_coeff[:,0]-lambdai))
     if lambdai >= 974:
         tau_O3 = 0.0
     else:
