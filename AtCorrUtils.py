@@ -364,7 +364,7 @@ def aerosol_correction ( tau_diff, fname, l_rayleigh, doy, lambdas, theta_i, ver
     green_rad = green_refl*et_rad*np.cos(np.deg2rad(theta_i))/(3.14159)
     aerosol_corr = green_rad_toa*0.
     aerosol_corr[clear_water==1] = green_rad_toa[clear_water==1] - \
-      green_rad - l_rayleigh[1]
+      (green_rad*tau_diff[1]) - l_rayleigh[1]
     if verbose:
       print "Starting interpolation..."
         
