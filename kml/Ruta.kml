@@ -4,7 +4,7 @@
 <Placemark>
 <name>Ejemplo de CDATA</name>
 <description> <![CDATA[ <h4>¡Las etiquetas CDATA son útiles!</h4> <p style="font-size:10px;color:blue;">El texto es <i>más fácil de leer</i> y <b>más fácil de escribir</b> 
-cuando se evita usar referencias de entidad.</font></p> ]]> 
+cuando se evita usar referencias de entidad.</p> ]]> 
 </description> 
 <Point> <coordinates>102.595626,14.996729</coordinates> </Point> 
 </Placemark> 
