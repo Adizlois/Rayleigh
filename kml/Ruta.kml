@@ -31,7 +31,7 @@
  <name>Pasa por encima de este icono</name>
  <styleUrl>#exampleStyleMap</styleUrl>
  <Point>
- <coordinates>29.123373, 116.201935</coordinates>
+ <coordinates>29.123373, 116.201935,0</coordinates>
  </Point>
  </Placemark>
  </Document>
