@@ -1,85 +1,100 @@
-<!DOCTYPE html>
-<html>
-
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Rayleigh : ">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Rayleigh</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/Adizlois/Rayleigh">View on GitHub</a>
-
-          <h1 id="project_title">Rayleigh</h1>
-          <h2 id="project_tagline"></h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/Adizlois/Rayleigh/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/Adizlois/Rayleigh/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h2>
-<a name="testing" class="anchor" href="#testing"><span class="octicon octicon-link"></span></a>Testing!!</h2>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
   
-<p> First way ....</p>
-<script src="//www.gmodules.com/ig/ifr?url=http://dl.google.com/developers/maps/embedkmlgadget.xml&amp;up_kml_url=https%3A%2F%2Frawgit.com%2FAdizlois%2FRayleigh%2Fgh-pages%2Fkml%2FRuta.kml&amp;up_view_mode=maps&amp;up_earth_2d_fallback=0&amp;up_earth_fly_from_space=1&amp;up_earth_show_nav_controls=1&amp;up_earth_show_buildings=1&amp;up_earth_show_terrain=1&amp;up_earth_show_roads=1&amp;up_earth_show_borders=1&amp;up_earth_sphere=earth&amp;up_maps_zoom_out=1&amp;up_maps_default_type=hybrid&amp;synd=open&amp;w=492&amp;h=287&amp;title=Hiking+route&amp;border=%23ffffff%7C0px%2C1px+solid+%2399BB66%7C0px%2C2px+solid+%23AACC66%7C0px%2C2px+solid+%23BBDD66&amp;output=js"></script>
-    </div>
-<p> <font color="white"><b>Second way</b></font></p>
+  <meta content="text/html; charset=ISO-8859-1">
 
-  <style>
-      #map_canvas {
-        width: 500px;
-        height: 400px;
-      }
-  </style>
-  <script src="https://maps.googleapis.com/maps/api/js"></script>
-  <script>
-      function initialize() {
-        var map_canvas = document.getElementById('map_canvas');
-        var map_options = {
-          center: new google.maps.LatLng(29.149763,116.287308),
-          zoom: 9,
-          mapTypeId: google.maps.MapTypeId.SATELLITE
-        }
-        var map = new google.maps.Map(map_canvas, map_options)
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-    
-  </script>
-      <div id="map_canvas" class="inner"></div>
-  </div>
+  
+  <link type="text/css" rel="stylesheet" href="stylesheet.css">
+  <title>Test</title>
 
-    
-      </section>  
-    
-    
-      
+  
+</head><body>
+<div id="headertext">
+<h1><small style="font-family: serif;">A PRACTICAL ATMOSPHERIC
+CORRECTION METHOD FOR LANDSAT
+TM/ETM+ DATA OVER INLAND WATERS</small><br>
+</h1>
+</div>
 
-      
-    
+<div id="headerimages">
+<img src="Imagenes/landsat7.jpg" height="180" width="220"><img src="Imagenes/binary.png" height="180" width="220"><img src="Imagenes/3dgis.jpeg" height="180" width="220"></div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Rayleigh maintained by <a href="https://github.com/Adizlois">Adizlois</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+<br>
 
-    
+<div id="leftpannel">
+<div id="button"><a class="linkbutton" href="index.html">1.Introduction</a>
+</div>
+<div id="button"><a class="linkbutton" href="Landsat.html"> 2.Landsat</a>
+</div>
+<div id="button"><a class="linkbutton" href="Area.html"> 3.Study area</a>
+</div>
+<div id="button"><a class="linkbutton" href="WLR.html"> 4.WLR retrieval</a>
+</div>
+<div id="button"><a class="linkbutton" href="LEDAPS.html"> 5.LEDAPS </a>
+</div>
+<div id="button"><a class="linkbutton" href="Scripts.html"> 6.Scripts</a>
+</div>
+<div id="button"><a class="linkbutton" href="Results.html"> 7.Results </a>
+</div>
+<div id="button"><a class="linkbutton" href="References.html">
+8.References</a> </div>
+</div>
 
-  </body>
-</html>
+<div id="maintext">
+<h2> 1. Introduction </h2>
+<hr>
+<p><span class="Firstletter">I</span>n recent years, there has been a
+heightened interest in monitoring
+inland water quality, as rapid changes in human activity (such as
+fertilizer leaching, etc...) have been linked to rising eutrophication
+levels and increased silting (Dearing et al. 2005; Zhang et al.,2010).
+Decision makers have also noted the importance of monitoring networks,
+and water monitoring networks are starting to be deployed by
+governments, their growth occurring in parallel to legislation on water
+quality (Water Framework Directive, 2000/60/EC, Groundwater Directive
+2006/118/EC, European Union Water Initiative (EUWI)). While these
+networks are a positive development, they are not ubiquitous, limited
+both in space and in time. Earth Observation (EO) data in the optical
+domain has proven useful (e.g. (Carpenter 1983)) in monitoring water
+quality, as surface reflectance in the visible part of the spectrum
+varies as a function of water composition (Quibel 1991, Dekker et al.
+1992, Chong et al 2014). In principle, EO data has the ability to
+frequently monitor (limited by clouds and satellite revisit periods)
+inland waters even in situations where no in situ observational
+networks are in place. Moreover, since sensors such as Landsat have
+been in operation for over three decades, it opens the possibility of
+assessing long term dynamics in water composition.<br>
+<br>
+A number of complications need to be addressed in order to use EO data
+effectively
+to monitor lakes, however. For one, data acquisition is contingent on
+orbital selection, as well as cloudiness. In regions where clouds are
+prevalent, our ability to monitor lakes is thus severely reduced.
+Additionally, the sensors capture information on the state of the water
+surface, but are also affected by the optical properties of the
+atmosphere, principally by scattering and absorption of radiation by
+gases and particles. Additional techniques are therefore required to
+compensate this important contribution. Atmospheric correction process
+converts top-of-atmosphere (TOA) radiance signal into water leaving
+reflectance after removal of these atmospheric effects. <br>
+<br>
+In this contribution, we address the problem of atmospheric correction,
+trying
+to provide a practical and simple general approach. The method is
+adapted from Wang et al (2007), and accounts for the effects of
+Rayleigh scattering, atmospheric ozone and aerosols. We compare the
+results with in situ measurements, as well as with results obtained by
+treating the original data with the Landsat Ecosystem Disturbance
+Adaptive Processing System (LEDAPS). We show that estimating the
+contribution of aerosols is critical to fully </p>
+</div>
+
+<div id="footer">
+<span class="footertext" style="color: gray;"><em>Author
+&amp;Webmaster: </em></span>
+<span class="footertext" style="color: white;">&nbsp; Alfonso Diz-Lois </span><br>
+<a class="footertext" href="Formulario.html" style="text-decoration: none; position: absolute; text-align: left; left: 20px;"><em>Contact</em></a><br>
+<!-- hitwebcounter Code START --> <a href="http://www.hitwebcounter.com/" target="_blank"><img src="http://hitwebcounter.com/counter/counter.php?page=5765267&amp;style=0010&amp;nbdigits=5&amp;type=page&amp;initCount=0" title="" alt="" border="0"></a><!-- hitwebcounter.com --><a href="http://www.hitwebcounter.com/" title="Know Total Hits" target="_blank" style="font-family: Arial,Helvetica,sans-serif; font-size: 11px; color: rgb(154, 150, 163); text-decoration: none;"><em>Visits</em>
+</a> </div>
+
+</body></html>
