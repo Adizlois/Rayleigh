@@ -1,0 +1,82 @@
+*{
+font-family:Century Gothic, DejaVu Sans;
+}
+
+#headertext{
+display:block;
+text-align:center;
+padding:0px 220px 0px 120px;
+font-weight:bold;
+}
+
+#headerimages{
+height:180px;
+width: 700px;
+margin:auto;
+background-color:black;
+}
+
+#button{
+width: 100px;
+padding-top:10px;
+padding-left:0.5em;
+}
+.linkbutton{
+font-weight:bold;
+text-align:left;
+font-size:0.8em;
+text-decoration:none;
+color:black;
+}
+#button:hover{
+font-size:1.2em;
+text-shadow: 4px 4px 2px blue;
+}
+
+#leftpannel{
+float:left;
+padding-top: 45px;
+}
+
+#maintext{
+position:relative;
+margin: 10px 120px 0px 180px;
+text-align:justify;
+line-height:25px;
+}
+
+.Firstletter{
+font-size:2em;
+font-style:italic;
+font-family:Century Gothic;
+}
+
+div>h2{
+text-shadow: 4px 4px 2px #666;
+}
+
+.midimage{
+margin:auto;
+text-align:center;
+font-family: times, Times New Roman, times-roman, georgia, serif;
+font-size: 14px;
+color: #444;
+}
+
+#footer{
+display:block;
+clear:both;
+background-color:black;
+text-align:right;
+padding-right:120px;
+padding-left:10px;
+}
+
+.footertext{
+float:left;
+font-weight:bold;
+color:white;
+font-size:0.9em;
+padding-top:10px;
+}
+
