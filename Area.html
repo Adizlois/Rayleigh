@@ -70,7 +70,28 @@ is negatively impacting the Lake that was declared a Ramsar area in
 <br>
 <br>
 </div>
-
+<style>
+      #map_canvas {
+        width: 500px;
+        height: 400px;
+        text-align:center;
+      }
+  </style>
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  <script>
+      function initialize() {
+        var map_canvas = document.getElementById('map_canvas');
+        var map_options = {
+          center: new google.maps.LatLng(29.149763,116.287308),
+          zoom: 9,
+          mapTypeId: google.maps.MapTypeId.SATELLITE
+        }
+        var map = new google.maps.Map(map_canvas, map_options)
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    
+  </script>
+      <div id="map_canvas" class="inner"></div>
 <div class="midimage">
 <table style="width: 300px; height: 51px; margin-left: 300px;" cellpadding="5" cellspacing="0">
   <col width="200"> <col width="180"> <tbody>
