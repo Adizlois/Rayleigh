@@ -63,6 +63,21 @@ font-size: 14px;
 color: #444;
 }
 
+.formula{
+text-align:center;
+margin:auto;
+shadow: 4px 4px 2px #666;
+}
+.formula:hover{
+font-size:1.3em;
+}
+.formulaindex{
+font-size: 0.9em; 
+position:absolute;
+left: 180px;
+font-weight:bold;
+}
+
 #footer{
 display:block;
 clear:both;
@@ -79,4 +94,5 @@ color:white;
 font-size:0.9em;
 padding-top:10px;
 }
+
 
